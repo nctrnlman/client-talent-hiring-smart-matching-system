@@ -20,6 +20,7 @@ import { AccessControl } from "../utils/AccessControl";
 import CandidatePoolHrmsPage from "../pages/hrms/candidates/candidatePool/CandidatePoolHrmsPage";
 import CandidateDetailHrmsPage from "../pages/hrms/candidates/candidateDetail/CandidateDetailHrmsPage";
 import VacancyFormHrmsPage from "../pages/hrms/jobManagement/vacancyAction/VacancyFormHrmsPage";
+import VacancyDetailHrmsPage from "../pages/hrms/jobManagement/vacancyAction/VacancyDetailHrmsPage";
 
 const AppRoutes: React.FC = () => {
   return (
@@ -64,6 +65,16 @@ const AppRoutes: React.FC = () => {
           <AccessControl requiredRole="EMPLOYER">
             <HrmsLayout>
               <VacancyFormHrmsPage />
+            </HrmsLayout>
+          </AccessControl>
+        }
+      />
+      <Route
+        path="/hrms/vacancy/detail/:vacancyId"
+        element={
+          <AccessControl requiredRole="EMPLOYER">
+            <HrmsLayout>
+              <VacancyDetailHrmsPage />
             </HrmsLayout>
           </AccessControl>
         }

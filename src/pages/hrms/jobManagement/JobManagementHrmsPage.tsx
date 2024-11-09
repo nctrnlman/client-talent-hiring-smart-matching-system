@@ -91,14 +91,14 @@ const JobManagementHrmsPage: React.FC = () => {
           <Button
             type="link"
             icon={<AiFillEye />}
-            onClick={() => navigate(`/hrms/vacancies/${record.id}`)}
+            onClick={() => navigate(`/hrms/vacancy/detail/${record.id}`)}
           >
             View
           </Button>
           <Button
             type="link"
             icon={<FiEdit />}
-            onClick={() => navigate(`/hrms/vacancies/edit/${record.id}`)}
+            onClick={() => navigate(`/hrms/vacancy/${record.id}`)}
           >
             Edit
           </Button>
