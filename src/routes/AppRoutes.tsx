@@ -21,6 +21,7 @@ import CandidatePoolHrmsPage from "../pages/hrms/candidates/candidatePool/Candid
 import CandidateDetailHrmsPage from "../pages/hrms/candidates/candidateDetail/CandidateDetailHrmsPage";
 import VacancyFormHrmsPage from "../pages/hrms/jobManagement/vacancyAction/VacancyFormHrmsPage";
 import VacancyDetailHrmsPage from "../pages/hrms/jobManagement/vacancyAction/VacancyDetailHrmsPage";
+import VacancyDetailCareerPage from "../pages/career/vacancy/VacancyDetailCareerPage";
 
 const AppRoutes: React.FC = () => {
   return (
@@ -156,6 +157,16 @@ const AppRoutes: React.FC = () => {
           <AccessControl requiredRole="CANDIDATE">
             <CareerLayout>
               <VacancyCareerPage />
+            </CareerLayout>
+          </AccessControl>
+        }
+      />
+      <Route
+        path="/career/vacancy/:vacancyId"
+        element={
+          <AccessControl requiredRole="CANDIDATE">
+            <CareerLayout>
+              <VacancyDetailCareerPage />
             </CareerLayout>
           </AccessControl>
         }

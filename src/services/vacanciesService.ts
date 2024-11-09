@@ -2,13 +2,22 @@
 
 import axios from "axios";
 import { GetVacanciesResponse, GetVacancyDetailResponse } from "../dto/vacancy";
+import { getUserSession } from "./indexedDBService";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
 const getVacancies = async (): Promise<GetVacanciesResponse> => {
   try {
     const token = localStorage.getItem("authToken"); // Retrieve token from localStorage
+    const userSession = await getUserSession(token);
+    const params: any = {};
+    if (userSession?.role === "EMPLOYER" && userSession?.userData?.id) {
+      params.employerId = userSession.userData.id; // Add employerId if role is EMPLOYER
+    }
+
+    // Send GET request with employerId if applicable
     const response = await axios.get(`${API_URL}/vacancies`, {
+      params, // Include params in the GET request
       headers: {
         Authorization: `Bearer ${token}`, // Include token in the Authorization header
       },
