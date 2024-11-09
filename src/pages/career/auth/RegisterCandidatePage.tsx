@@ -35,6 +35,13 @@ const schema = Yup.object().shape({
   phoneNumber: Yup.string()
     .matches(/^[0-9]+$/, "Phone number must be numeric")
     .required("Phone number is required"),
+  educationLevelId: Yup.string().required("Education level is required"), // Validasi untuk Education Level
+  softSkills: Yup.array()
+    .min(1, "Please select at least one soft skill") // Validasi untuk Soft Skills
+    .required("Soft skills are required"),
+  hardSkills: Yup.array()
+    .min(1, "Please select at least one hard skill") // Validasi untuk Hard Skills
+    .required("Hard skills are required"),
 });
 
 const RegisterCandidatePage: React.FC = () => {
@@ -120,6 +127,9 @@ const RegisterCandidatePage: React.FC = () => {
           "summary",
           "cv",
           "phoneNumber",
+          "educationLevelId", // Validasi untuk Education Level
+          "softSkills", // Validasi untuk Soft Skills
+          "hardSkills", // Validasi untuk Hard Skills
         ];
       case "workExperience":
         return ["job", "yearOfExperience", "jobExperience"];

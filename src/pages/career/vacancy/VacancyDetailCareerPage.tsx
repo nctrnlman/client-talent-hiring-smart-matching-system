@@ -3,12 +3,14 @@ import { Button, Card, Col, Row, Typography, message, Tag, Space } from "antd";
 import { useParams } from "react-router-dom";
 import { VacancyDetail } from "../../../dto/vacancy";
 import vacanciesService from "../../../services/vacanciesService"; // Import your service to fetch vacancy details
+import applicantService from "../../../services/applicantService";
 import {
   LaptopOutlined,
   CalendarOutlined,
   FileTextOutlined,
   TeamOutlined,
 } from "@ant-design/icons"; // Importing icons
+import { toast } from "react-toastify";
 
 const { Title, Text } = Typography;
 
@@ -35,9 +37,16 @@ const VacancyDetailCareerPage: React.FC = () => {
     }
   }, [vacancyId]);
 
-  const handleApply = () => {
-    // Logic for applying to the job (could be a POST request to apply)
-    message.success("Successfully applied for the job!");
+  const handleApply = async () => {
+    try {
+      await applicantService.applyForVacancy({
+        vacancyId: Number(vacancyId),
+      });
+      toast.success("Successfully applied for the job!");
+    } catch (error) {
+      toast.error("Failed to apply for the job.");
+      console.error("Error applying for the job:", error);
+    }
   };
 
   if (loading) {

@@ -3,6 +3,7 @@ import axios from "axios";
 import {
   GetCandidatesResponse,
   GetCandidateDetailResponse,
+  CandidateDetail,
 } from "../dto/candidate";
 
 const API_URL = import.meta.env.VITE_API_URL;
@@ -41,7 +42,34 @@ const getCandidateDetail = async (
   }
 };
 
+const updateCandidate = async (
+  candidateId: string,
+  candidateData: CandidateDetail
+): Promise<GetCandidateDetailResponse> => {
+  try {
+    const token = localStorage.getItem("authToken");
+
+    const response = await axios.put(
+      `${API_URL}/candidates/${candidateId}`,
+      candidateData,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    const serverMessage =
+      error.response?.data?.message || "Failed to update candidate.";
+    throw new Error(serverMessage);
+  }
+};
+
 export default {
   getCandidates,
   getCandidateDetail,
+  updateCandidate, // Export updateCandidate
 };
