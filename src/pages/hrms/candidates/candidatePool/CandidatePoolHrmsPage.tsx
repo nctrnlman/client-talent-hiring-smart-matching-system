@@ -4,6 +4,7 @@ import { Table, message, Button } from "antd";
 import { useNavigate } from "react-router-dom";
 import { Candidate } from "../../../../dto/candidate";
 import candidatesService from "../../../../services/candidatesService";
+import { AiFillEye } from "react-icons/ai";
 
 const CandidatePoolHrmsPage: React.FC = () => {
   const [candidates, setCandidates] = useState<Candidate[]>([]);
@@ -25,6 +26,11 @@ const CandidatePoolHrmsPage: React.FC = () => {
   }, []);
 
   const columns = [
+    {
+      title: "No",
+      key: "index",
+      render: (_: any, _record: Candidate, index: number) => index + 1,
+    },
     {
       title: "Name",
       dataIndex: "fullname",
@@ -56,9 +62,10 @@ const CandidatePoolHrmsPage: React.FC = () => {
       render: (_: any, record: Candidate) => (
         <Button
           type="link"
+          icon={<AiFillEye />}
           onClick={() => navigate(`/hrms/candidates/${record.id}`)}
         >
-          View Detail
+          View
         </Button>
       ),
     },
@@ -66,7 +73,19 @@ const CandidatePoolHrmsPage: React.FC = () => {
 
   return (
     <div className="p-4">
-      <h2 className="text-2xl font-bold mb-4">Candidate Pool</h2>
+      <div className="bg-white p-4 rounded-2xl mb-4">
+        <h2 className="text-2xl font-bold mb-4">Candidate Pool</h2>
+        <p className="mb-4 text-gray-700">
+          Welcome to the Candidate Pool page. This section provides an overview
+          of all the candidates who have applied for positions within the
+          organization. Here, you can track the status of their applications,
+          review their qualifications, and manage their progress through the
+          recruitment pipeline. You can take actions such as viewing detailed
+          candidate profiles, updating their application status, or moving them
+          through different stages of the hiring process.
+        </p>
+      </div>
+
       <Table
         columns={columns}
         dataSource={candidates}

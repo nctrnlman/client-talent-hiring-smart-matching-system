@@ -1,10 +1,34 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Controller, UseFormReturn } from "react-hook-form";
-
+import masterDataService from "../../../../services/masterDataService";
+import { Select } from "antd";
+const { Option } = Select;
 const PersonalInfo: React.FC<{
   control: UseFormReturn<any>["control"];
   errors: any;
 }> = ({ control, errors }) => {
+  const [educationLevels, setEducationLevels] = useState<any[]>([]);
+  const [softSkills, setSoftSkills] = useState<any[]>([]);
+  const [hardSkills, setHardSkills] = useState<any[]>([]);
+
+  useEffect(() => {
+    const fetchMasterData = async () => {
+      try {
+        const data = await masterDataService.getMasterData([
+          "educLevels",
+          "softSkills",
+          "hardSkills",
+        ]);
+        setEducationLevels(data.eduLevels || []);
+        setSoftSkills(data.softSkills || []);
+        setHardSkills(data.hardSkills || []);
+      } catch (error) {
+        console.error("Error fetching master data:", error);
+      }
+    };
+
+    fetchMasterData();
+  }, []);
   return (
     <div className="flex space-x-4">
       {/* Kolom Kiri: Informasi Pribadi */}
@@ -187,6 +211,99 @@ const PersonalInfo: React.FC<{
           />
           {errors.cv && (
             <p className="text-red-500 mt-1">{errors.cv.message}</p>
+          )}
+        </div>
+        {/* Education Level */}
+        <div className="mb-4">
+          <label className="block text-gray-700 font-semibold mb-1">
+            Education Level
+          </label>
+          <Controller
+            name="educationLevelId"
+            control={control}
+            defaultValue=""
+            render={({ field }) => (
+              <select
+                {...field}
+                className={`w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-400 ${
+                  errors.educationLevelId ? "border-red-500" : "border-gray-300"
+                }`}
+              >
+                <option value="">Select Education Level</option>
+                {educationLevels.map((level: any) => (
+                  <option key={level.id} value={level.id}>
+                    {level.name}
+                  </option>
+                ))}
+              </select>
+            )}
+          />
+          {errors.educationLevelId && (
+            <p className="text-red-500 mt-1">
+              {errors.educationLevelId.message}
+            </p>
+          )}
+        </div>
+
+        {/* Soft Skills */}
+        <div className="mb-4">
+          <label className="block text-gray-700 font-semibold mb-1">
+            Soft Skills
+          </label>
+          <Controller
+            name="softSkills"
+            control={control}
+            defaultValue={[]}
+            render={({ field }) => (
+              <Select
+                {...field}
+                mode="multiple" // Enable multiple selection
+                className={`w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-400 ${
+                  errors.softSkills ? "border-red-500" : "border-gray-300"
+                }`}
+                placeholder="Select Soft Skills"
+              >
+                {softSkills.map((skill: any) => (
+                  <Option key={skill.id} value={skill.id}>
+                    {skill.name}
+                  </Option>
+                ))}
+              </Select>
+            )}
+          />
+          {errors.softSkills && (
+            <p className="text-red-500 mt-1">{errors.softSkills.message}</p>
+          )}
+        </div>
+
+        {/* Hard Skills */}
+        <div className="mb-4">
+          <label className="block text-gray-700 font-semibold mb-1">
+            Hard Skills
+          </label>
+          <Controller
+            name="hardSkills"
+            control={control}
+            defaultValue={[]}
+            render={({ field }) => (
+              <Select
+                {...field}
+                mode="multiple" // Enable multiple selection
+                className={`w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-400 ${
+                  errors.hardSkills ? "border-red-500" : "border-gray-300"
+                }`}
+                placeholder="Select Hard Skills"
+              >
+                {hardSkills.map((skill: any) => (
+                  <Option key={skill.id} value={skill.id}>
+                    {skill.name}
+                  </Option>
+                ))}
+              </Select>
+            )}
+          />
+          {errors.hardSkills && (
+            <p className="text-red-500 mt-1">{errors.hardSkills.message}</p>
           )}
         </div>
       </div>
