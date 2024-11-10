@@ -109,10 +109,15 @@ const getApplicantsForVacancy = async (
 };
 
 // Fetch all applicants
-const getApplicants = async (): Promise<Applicant[]> => {
+const getApplicants = async (
+  employerId?: number,
+  userId?: number,
+  status?: string
+): Promise<Applicant[]> => {
   try {
     const token = localStorage.getItem("authToken");
     const response = await axios.get(`${API_URL}/applicants`, {
+      params: { employerId, userId, status }, // Pass employerId as a query parameter
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -125,10 +130,40 @@ const getApplicants = async (): Promise<Applicant[]> => {
   }
 };
 
+const moveToRecruitmentProcess = async (
+  applicantId: number,
+  flow: string,
+  summary?: string,
+  status?: string,
+  result?: string
+) => {
+  try {
+    const response = await axios.patch(
+      `${API_URL}/applicants/${applicantId}/move-to-next-step`,
+      {
+        flow,
+        summary: summary || "", // Use empty string if no summary is provided
+        status: status || "",
+        result: result || "", // Default to "IN_PROGRESS" if no status is provided
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    const serverMessage =
+      error.response?.data?.message || "Failed to move to the next process.";
+    throw new Error(serverMessage);
+  }
+};
 export default {
   applyForVacancy,
   updateApplicantStatusOrFlow,
   getApplicantDetail,
   getApplicantsForVacancy,
   getApplicants,
+  moveToRecruitmentProcess,
 };

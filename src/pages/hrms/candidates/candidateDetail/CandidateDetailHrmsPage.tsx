@@ -7,7 +7,7 @@ import {
   TwitterOutlined,
   LinkedinOutlined,
   GlobalOutlined,
-} from "@ant-design/icons"; // Mengimpor ikon dari antd
+} from "@ant-design/icons"; // Importing icons from antd
 import { CandidateDetail } from "../../../../dto/candidate";
 import candidatesService from "../../../../services/candidatesService";
 
@@ -50,8 +50,8 @@ const CandidateDetailHrmsPage: React.FC = () => {
       return candidate.photoProfile;
     }
     return candidate.gender === "male"
-      ? "https://cdn-icons-png.flaticon.com/128/3135/3135715.png" // Avatar laki-laki
-      : "https://cdn-icons-png.flaticon.com/128/6997/6997662.png"; // Avatar perempuan
+      ? "https://cdn-icons-png.flaticon.com/128/3135/3135715.png" // Male Avatar
+      : "https://cdn-icons-png.flaticon.com/128/6997/6997662.png"; // Female Avatar
   };
 
   return (
@@ -139,6 +139,23 @@ const CandidateDetailHrmsPage: React.FC = () => {
               />
               {candidate.portfolio || "N/A"}
             </a>
+          </Descriptions.Item>
+
+          {/* Add Soft Skills */}
+          <Descriptions.Item label="Soft Skills">
+            {candidate.softSkills?.map((skill) => skill.name).join(", ") ||
+              "N/A"}
+          </Descriptions.Item>
+
+          {/* Add Hard Skills */}
+          <Descriptions.Item label="Hard Skills">
+            {candidate.hardSkills?.map((skill) => skill.name).join(", ") ||
+              "N/A"}
+          </Descriptions.Item>
+
+          {/* Add Education Level */}
+          <Descriptions.Item label="Education Level">
+            {candidate.educationLevel?.name || "N/A"}
           </Descriptions.Item>
         </Descriptions>
 

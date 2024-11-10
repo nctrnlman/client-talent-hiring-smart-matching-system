@@ -1,4 +1,3 @@
-// src/services/candidatesService.ts
 import axios from "axios";
 import {
   GetCandidatesResponse,
@@ -71,5 +70,5 @@ const updateCandidate = async (
 export default {
   getCandidates,
   getCandidateDetail,
-  updateCandidate, // Export updateCandidate
+  updateCandidate,
 };

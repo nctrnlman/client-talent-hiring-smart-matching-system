@@ -180,7 +180,8 @@ const ProfileCareerPage: React.FC = () => {
     }
   };
 
-  if (loading) return <Spin tip="Loading data..." />;
+  if (loading) return;
+  <Spin size="large" />;
 
   if (error) return <p>Error: {error}</p>;
 
